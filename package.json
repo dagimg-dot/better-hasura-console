@@ -1,7 +1,7 @@
 {
   "name": "better-hasura-console",
   "displayName": "Better Hasura Console",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "Dagim G. Astatkie",
   "description": "",
   "type": "module",
