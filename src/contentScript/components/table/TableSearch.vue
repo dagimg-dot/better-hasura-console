@@ -55,6 +55,7 @@
 import { ref, computed } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 import { TableService, type TableInfo } from '@/contentScript/services/TableService'
+import { TableNavigator } from '@/contentScript/services/TableNavigator'
 import { logger } from '@/shared/logging'
 
 const searchTerm = ref('')
@@ -114,38 +115,7 @@ const selectTable = (table: TableInfo) => {
   searchInput.value?.blur()
 
   TableService.markAccessed(table.displayName)
-
-  // Find schema button and click to expand
-  const allButtons = document.querySelectorAll('[data-test="table-links"] div[role="button"]')
-  let schemaButton: Element | null = null
-
-  for (const btn of Array.from(allButtons)) {
-    if (btn.textContent?.trim().includes(table.schema)) {
-      schemaButton = btn
-      break
-    }
-  }
-
-  if (schemaButton) {
-    ;(schemaButton as HTMLElement).click()
-
-    // Wait for table to appear and click it
-    setTimeout(() => {
-      const tableLink = document.querySelector(`a[data-test="${table.table}"]`)
-      if (tableLink) {
-        ;(tableLink as HTMLElement).click()
-      } else {
-        // Fallback: find by href
-        const allLinks = Array.from(document.querySelectorAll('[data-test="table-links"] a'))
-        for (const link of allLinks) {
-          if (link.getAttribute('href')?.includes(`/${table.table}/browse`)) {
-            ;(link as HTMLElement).click()
-            return
-          }
-        }
-      }
-    }, 400)
-  }
+  void TableNavigator.open(table)
 }
 
 const handleRefresh = async () => {
