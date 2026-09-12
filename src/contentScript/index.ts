@@ -60,12 +60,6 @@ function removeTableSearch(): void {
   const wrapper = document.querySelector('.bhh-table-search-wrapper')
   if (!wrapper) return
 
-  const parent = wrapper.parentElement
-  // Restore dbSection if it was moved inside wrapper during injection
-  const dbSection = wrapper.querySelector('.P72YYDnHxrZnFQaKXXUxI')
-  if (dbSection && parent) {
-    parent.insertBefore(dbSection, wrapper)
-  }
   wrapper.remove()
   tableSearchInjected = false
   logger.debug('Table search removed')
@@ -100,19 +94,18 @@ async function injectTableSearch(): Promise<void> {
   }
 
   try {
-    const dbSection = parent.querySelector('.P72YYDnHxrZnFQaKXXUxI')
-
     const wrapper = document.createElement('div')
     wrapper.className = 'bhh-table-search-wrapper'
+    // The sidebar heading above is a row of uncleared Bootstrap `col-xs-*` floats.
+    // A flex container establishes its own formatting context, so without `clear`
+    // it gets squeezed into the sliver of space left beside them.
+    wrapper.style.clear = 'both'
+    wrapper.style.width = '100%'
+    wrapper.style.boxSizing = 'border-box'
     wrapper.style.display = 'flex'
     wrapper.style.flexDirection = 'column'
 
-    if (dbSection && dbSection.parentElement === parent) {
-      parent.insertBefore(wrapper, tableLinks)
-      wrapper.appendChild(dbSection)
-    } else {
-      parent.insertBefore(wrapper, tableLinks)
-    }
+    parent.insertBefore(wrapper, tableLinks)
 
     const searchContainer = document.createElement('div')
     searchContainer.className = 'table-search-container'
