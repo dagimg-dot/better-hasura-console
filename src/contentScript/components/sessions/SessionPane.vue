@@ -2,7 +2,22 @@
   <details open class="bhh-session-details">
     <summary class="cursor-pointer items-center bhh-summary">
       <span class="inline-block text-xs mr-sm">
-        <i class="fa fa-chevron-right bhh-chevron"></i>
+        <!-- Chevron SVG -->
+        <svg
+          v-once
+          class="bhh-chevron"
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
       </span>
       <span class="bhh-summary-content">
         <div class="font-semibold" style="display: flex; align-items: center; gap: 8px">
@@ -222,6 +237,10 @@ function handleToggleActive(sessionId: string) {
 <style scoped>
 .bhh-session-details {
   margin-top: 8px;
+}
+
+.bhh-chevron {
+  display: block;
 }
 
 .bhh-session-details[open] .bhh-chevron {

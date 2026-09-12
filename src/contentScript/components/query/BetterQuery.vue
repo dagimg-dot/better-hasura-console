@@ -111,7 +111,22 @@
       </div>
 
       <div v-if="isSearching" class="better-query-loading">
-        <i class="fa fa-spinner fa-spin"></i> Scanning tables...
+        <!-- Spinner SVG -->
+        <svg
+          v-once
+          class="better-query-spinner"
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+        </svg>
+        Scanning tables...
       </div>
 
       <div
@@ -553,14 +568,24 @@ function handleClear() {
 }
 
 .better-query-loading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-top: 12px;
   font-size: 13px;
   color: #888;
   padding: 8px 6px;
 }
 
-.better-query-loading i {
-  margin-right: 6px;
+.better-query-spinner {
+  flex: none;
+  animation: better-query-spin 1s linear infinite;
+}
+
+@keyframes better-query-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .better-query-error {
